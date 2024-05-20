@@ -28,7 +28,9 @@
     "@typescript-eslint/parser": "^7.10.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "i": "^0.3.7",
     "prettier": "^3.2.5",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   }
 }
