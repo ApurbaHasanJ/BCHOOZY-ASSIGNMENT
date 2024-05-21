@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 import ProductValidationSchema from './product.validation';
@@ -64,7 +65,7 @@ const handleGetProductById = async (req: Request, res: Response) => {
   }
 };
 
-// get product by id
+// update product by id
 const handleUpdateProductById = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;

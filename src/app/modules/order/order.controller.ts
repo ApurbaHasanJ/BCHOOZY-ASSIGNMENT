@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import OrderValidationSchema from './order.validation';
 import { OrderServices } from './order.service';
@@ -26,6 +27,26 @@ const handleCreateOrder = async (req: Request, res: Response) => {
   }
 };
 
+// get all order information
+const handleGetAllOrders = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.query;
+    const result = await OrderServices.getAllOrders(email as string);
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
+};
+
 export const OrderControllers = {
   handleCreateOrder,
+  handleGetAllOrders,
 };
