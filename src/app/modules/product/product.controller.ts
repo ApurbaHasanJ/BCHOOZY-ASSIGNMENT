@@ -29,7 +29,8 @@ const handlePostProduct = async (req: Request, res: Response) => {
 // get all product information
 const handleGetAllProducts = async (req: Request, res: Response) => {
   try {
-    const result = await ProductServices.getAllProducts();
+    const { searchTerm } = req.query;
+    const result = await ProductServices.getAllProducts(searchTerm as string);
     res.status(200).json({
       success: true,
       message: 'Products fetched successfully!',
@@ -63,10 +64,59 @@ const handleGetProductById = async (req: Request, res: Response) => {
   }
 };
 
+// get product by id
+const handleUpdateProductById = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const { product } = req.body;
 
+    // validation for product
+    const zodParsedData = ProductValidationSchema.parse(product);
+
+    // update product in DB
+    const result = await ProductServices.updateProductById(
+      productId,
+      zodParsedData,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Product updated successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
+};
+
+// delete product by id
+const handleDeleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await ProductServices.deleteProductById(productId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
+};
 
 export const ProductControllers = {
   handlePostProduct,
   handleGetAllProducts,
   handleGetProductById,
+  handleUpdateProductById,
+  handleDeleteProduct,
 };

@@ -1,4 +1,4 @@
-import { Schema, model, } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { TInventory, TProduct, TVariant } from './product.interface';
 
 const variantSchema = new Schema<TVariant>({
@@ -22,6 +22,19 @@ const productSchema = new Schema<TProduct>({
   tags: { type: [String], required: [true, 'Product tags are required'] },
   variants: { type: [variantSchema], required: true },
   inventory: { type: inventorySchema, required: true },
+  isDeleted: { type: Boolean, default: false },
+});
+
+// mongoose query middleware for delete product
+productSchema.pre('find', function (next) {
+  this.find({ isDelete: { $ne: true } });
+  next();
+});
+
+// for avoiding soft deleted data in findOne
+productSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
 });
 
 export const ProductModel = model<TProduct>('Product', productSchema);
