@@ -12,7 +12,11 @@ const createProductIntoDB = async (product: TProduct) => {
 const getAllProducts = async (searchTerm?: string) => {
   const query: any = {};
   if (searchTerm) {
-    query.$or = [{ name: { $regex: searchTerm, $options: 'i' } }];
+    query.$or = [
+      { name: { $regex: searchTerm, $options: 'i' } },
+      { description: { $regex: searchTerm, $options: 'i' } },
+      { category: { $regex: searchTerm, $options: 'i' } },
+    ];
   }
   const result = await ProductModel.find(query);
   return result;
