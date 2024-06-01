@@ -13,7 +13,7 @@ const orderSchema = new Schema<TOrder>({
 // Pre-save middleware to manage inventory
 orderSchema.pre('save', async function (next) {
   const order = this as TOrder;
-  
+
   // Validate ObjectId format
   if (!isValidObjectId(order.productId)) {
     const error = new Error(`Invalid product ID format: ${order.productId}`);

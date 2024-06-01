@@ -6,7 +6,7 @@ import ProductValidationSchema from './product.validation';
 // post a product
 const handlePostProduct = async (req: Request, res: Response) => {
   try {
-    const { product } = req.body;
+    const product = req.body;
 
     // validation for product
     const zodParsedData = ProductValidationSchema.parse(product);
@@ -69,7 +69,7 @@ const handleGetProductById = async (req: Request, res: Response) => {
 const handleUpdateProductById = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const { product } = req.body;
+    const product = req.body;
 
     // validation for product
     const zodParsedData = ProductValidationSchema.parse(product);
